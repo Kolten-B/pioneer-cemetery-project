@@ -6,23 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // GRID VISUAL SETUP
   // ===============================
   const letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M"];
-  const numbers = Array.from({length: 12}, (_, i) => i + 1);
+  const numbers = Array.from({ length: 12 }, (_, i) => i + 1);
 
   gridContainer.style.display = "grid";
-  gridContainer.style.gridTemplateColumns = `repeat(${letters.length}, 1fr)`; // <== flipped orientation
+  gridContainer.style.gridTemplateColumns = `repeat(${letters.length}, 1fr)`;
   gridContainer.style.gridTemplateRows = `repeat(${numbers.length}, 1fr)`;
   gridContainer.style.gap = "2px";
 
-  // Ward color codes
-  const wardColors = {
-    "1": "#cce3cc",
-    "2": "#b7d6b7",
-    "3": "#a2c9a2",
-    "4": "#8ebd8e",
-    "0": "#d8e3d8" // fallback for ward 0
-  };
-
-  // Make the grid boxes (letters across top, numbers down side)
+  // ===============================
+  // CREATE GRID CELLS
+  // ===============================
   numbers.forEach(num => {
     letters.forEach(letter => {
       const cell = document.createElement("div");
@@ -39,58 +32,65 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===============================
   Promise.all([
     fetch("data/grid_lookup.csv").then(r => r.text()),
-    fetch("data/cemetery_data.csv").then(r => r.text())
-  ]).then(([lookupCSV, cemeteryCSV]) => {
-    const lookupData = Papa.parse(lookupCSV, { header: true }).data;
-    const cemeteryData = Papa.parse(cemeteryCSV, { header: true }).data;
+    fetch("data/cemetery_data_fixed.csv").then(r => r.text())
+  ])
+    .then(([lookupCSV, cemeteryCSV]) => {
+      const lookupData = Papa.parse(lookupCSV, { header: true, skipEmptyLines: true }).data;
+      const cemeteryData = Papa.parse(cemeteryCSV, { header: true, skipEmptyLines: true }).data;
 
-    // Combine them by matching Grid/Ward/Block fields
-    const combined = lookupData.map(lookup => {
-      const match = cemeteryData.find(person =>
-        person.Ward?.trim() === lookup.Ward?.trim() &&
-        person.Block?.trim() === lookup.Block?.trim() &&
-        person.Grid?.trim() === lookup.Grid?.trim()
-      );
-      return {
-        grid: lookup.Grid?.trim(),
-        ward: lookup.Ward?.trim(),
-        block: lookup.Block?.trim(),
-        name: match?.Occupant?.trim() || "",
-        birth: match?.Birth?.trim() || "",
-        death: match?.Death?.trim() || ""
-      };
-    });
+      // Group all people by grid
+      const gridGroups = {};
 
-    // ===============================
-    // APPLY COLORS + CLICK EVENTS
-    // ===============================
-    combined.forEach(entry => {
-      const cell = document.querySelector(`[data-grid="${entry.grid}"]`);
-      if (cell) {
-        // Color it by ward
-        cell.style.backgroundColor = wardColors[entry.ward] || "#d8e3d8";
+      cemeteryData.forEach(person => {
+        const grid = person.Grid?.trim() || person.Grid?.trim(); // just in case column name differs
+        if (!grid) return;
+        if (!gridGroups[grid]) gridGroups[grid] = [];
+        gridGroups[grid].push({
+          name: person.Occupant?.trim() || "(Unknown)",
+          birth: person.Birth?.trim() || "",
+          death: person.Death?.trim() || "",
+          ward: person.Ward?.trim() || "0"
+        });
+      });
 
-        // When you click, show all people for that grid cell
+      console.log("Unique grids with data:", Object.keys(gridGroups).length, gridGroups);
+
+      // ===============================
+      // APPLY COLORS + CLICK EVENTS
+      // ===============================
+      document.querySelectorAll(".map-cell").forEach(cell => {
+        const grid = cell.dataset.grid;
+        const people = gridGroups[grid] || [];
+        const count = people.length;
+
+        // Color intensity = how many names in that grid
+        if (count === 0) {
+          cell.style.backgroundColor = "#f0f0f0"; // empty - grayish white
+        } else {
+          // darken green slightly with more names
+          const greenValue = Math.max(200 - count * 10, 120);
+          cell.style.backgroundColor = `rgb(${greenValue}, ${greenValue + 30}, ${greenValue})`;
+        }
+
+        // Click event to show info
         cell.addEventListener("click", () => {
-          const matches = combined.filter(p => p.grid === entry.grid);
-          if (matches.length === 0) {
-            results.innerHTML = `<p>No records found for ${entry.grid}</p>`;
+          if (count === 0) {
+            results.innerHTML = `<p>No records found for ${grid}</p>`;
           } else {
             results.innerHTML = `
-              <h2>Section ${entry.grid}</h2>
+              <h2>Section ${grid}</h2>
               <ul>
-                ${matches
+                ${people
                   .map(p => `<li>${p.name} (${p.birth} - ${p.death})</li>`)
                   .join("")}
               </ul>
             `;
           }
         });
-      }
+      });
+    })
+    .catch(err => {
+      console.error("Error loading data:", err);
+      results.innerText = "Error loading data.";
     });
-  })
-  .catch(err => {
-    console.error("Error loading data:", err);
-    results.innerText = "Error loading data.";
-  });
 });
