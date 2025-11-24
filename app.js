@@ -11,38 +11,45 @@ document.addEventListener("DOMContentLoaded", () => {
       header: true,
       skipEmptyLines: true,
       complete: function (resultsData) {
+        // Element that shows "Showing X of Y records"
         const recordCountEl = document.getElementById("record-count");
 
+        // Parse CSV rows into a friendlier JS structure
+        // PHASE 2 IDEA: In the future, this data could come from Firestore instead of CSV.
         const people = resultsData.data
           .map(row => ({
             name: row["Occupant"]?.trim() || "",
             birth: row["Birth"]?.trim() || "",
             death: row["Death"]?.trim() || "",
+            // Some rows mark veterans with something like "X" or another flag
             veteran: (row["Veteran"] || "").trim()
           }))
           .filter(p => p.name);
 
+        // Helper: update the "Showing X of Y" text
         function updateCount(list) {
           if (recordCountEl) {
             recordCountEl.textContent = `Showing ${list.length} of ${people.length} records`;
           }
         }
 
-        // show data after 5 seconds for a nice loading effect
+        // Randomized loading delay (1–5 seconds) for a slightly "fancier" feel
+        const delayMs = 1000 + Math.floor(Math.random() * 4000);
+
         setTimeout(() => {
           results.classList.remove("loading");
           displayPeople(people);
           updateCount(people);
-        }, 5000);
+        }, delayMs);
 
-        // SEARCH: filter by name/birth/death
+        // Debounced search input handler
         let timeout;
         searchInput.addEventListener("input", () => {
           clearTimeout(timeout);
           timeout = setTimeout(() => {
             const searchType = document.getElementById("searchType");
             const term = searchInput.value.toLowerCase();
-            const type = searchType.value;
+            const type = searchType.value; // "name", "birth", or "death"
 
             const filtered = people.filter(p =>
               (p[type] || "").toLowerCase().includes(term)
@@ -52,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }, 200);
         });
 
-        // FUNCTION: display data table
+        // Renders the table of people into the #results div
         function displayPeople(list) {
           if (list.length === 0) {
             results.innerHTML = "<p>No matching names found.</p>";
@@ -90,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           renderRows(list);
 
-          // simple name sorting only
+          // Simple alphabetical sort by name (click the header)
           const nameHeader = results.querySelector('th[data-sort="name"]');
           nameHeader.addEventListener("click", () => {
             const currentOrder = nameHeader.dataset.order === "asc" ? "desc" : "asc";
