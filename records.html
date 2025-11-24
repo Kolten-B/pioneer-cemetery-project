@@ -18,16 +18,19 @@
 
   <main>
     <div class="search-bar">
-        <select id="searchType">
-          <option value="name">Name</option>
-          <option value="birth">Birth</option>
-          <option value="death">Death</option>
-        </select>
-        <input type="text" id="search" placeholder="Search...">
-      </div>
-      
+      <select id="searchType">
+        <option value="name">Name</option>
+        <option value="birth">Birth</option>
+        <option value="death">Death</option>
+      </select>
+      <input type="text" id="search" placeholder="Search...">
+    </div>
+
+    <p id="record-count" class="record-count"></p>
+
     <div id="results">Loading data...</div>
   </main>
+
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="app.js"></script>
 </body>

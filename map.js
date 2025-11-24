@@ -2,86 +2,93 @@ document.addEventListener("DOMContentLoaded", () => {
   const gridContainer = document.getElementById("map-grid");
   const results = document.getElementById("map-results");
 
-  // ===============================
-  // GRID VISUAL SETUP
-  // ===============================
-  const letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M"];
-  const numbers = Array.from({ length: 12 }, (_, i) => i + 1);
+  // =====================================
+  // GRID VISUAL SETUP (letters across, numbers down)
+  // =====================================
+  const letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M"]; // columns
+  const numbers = Array.from({ length: 12 }, (_, i) => i + 1);          // rows 1–12
 
   gridContainer.style.display = "grid";
   gridContainer.style.gridTemplateColumns = `repeat(${letters.length}, 1fr)`;
   gridContainer.style.gridTemplateRows = `repeat(${numbers.length}, 1fr)`;
-  gridContainer.style.gap = "2px";
+  gridContainer.style.gap = "4px";
 
-  // ===============================
-  // CREATE GRID CELLS
-  // ===============================
+  // Create grid cells: A1, B1, C1, ..., A2, B2, ..., M12
   numbers.forEach(num => {
     letters.forEach(letter => {
       const cell = document.createElement("div");
       cell.classList.add("map-cell");
       cell.dataset.grid = `${letter}${num}`;
-      cell.innerText = `${letter}${num}`;
-      cell.style.backgroundColor = "#f0f0f0";
+      cell.textContent = `${letter}${num}`;
       gridContainer.appendChild(cell);
     });
   });
 
-  // ===============================
-  // LOAD BOTH CSV FILES
-  // ===============================
-  Promise.all([
-    fetch("data/grid_lookup.csv").then(r => r.text()),
-    fetch("data/cemetery_data_fixed.csv").then(r => r.text())
-  ])
-    .then(([lookupCSV, cemeteryCSV]) => {
-      const lookupData = Papa.parse(lookupCSV, { header: true, skipEmptyLines: true }).data;
-      const cemeteryData = Papa.parse(cemeteryCSV, { header: true, skipEmptyLines: true }).data;
+  // =====================================
+  // LOAD CEMETERY DATA (already merged with lookup)
+  // =====================================
+  fetch("data/cemetery_data_fixed.csv")
+    .then(r => r.text())
+    .then(csvText => {
+      const parsed = Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true
+      });
 
-      // Group all people by grid
+      const rows = parsed.data;
+
+      // Group everyone by grid ID (e.g., "H5", "H6", "I5", etc.)
       const gridGroups = {};
 
-      cemeteryData.forEach(person => {
-        const grid = person.Grid?.trim() || person.Grid?.trim(); // just in case column name differs
-        if (!grid) return;
-        if (!gridGroups[grid]) gridGroups[grid] = [];
-        gridGroups[grid].push({
-          name: person.Occupant?.trim() || "(Unknown)",
-          birth: person.Birth?.trim() || "",
-          death: person.Death?.trim() || "",
-          ward: person.Ward?.trim() || "0"
+      rows.forEach(row => {
+        // Use Grid_y from cemetery_data_fixed.csv
+        const rawGrid =
+          (row.Grid_y || row.Grid || "").toString().trim();
+
+        if (!rawGrid) return;
+
+        if (!gridGroups[rawGrid]) {
+          gridGroups[rawGrid] = [];
+        }
+
+        gridGroups[rawGrid].push({
+          name: (row.Occupant || "").trim() || "(Unknown)",
+          birth: (row.Birth || "").trim(),
+          death: (row.Death || "").trim()
         });
       });
 
-      console.log("Unique grids with data:", Object.keys(gridGroups).length, gridGroups);
+      console.log("Unique grids with data:", Object.keys(gridGroups).length);
 
-      // ===============================
-      // APPLY COLORS + CLICK EVENTS
-      // ===============================
+      // =====================================
+      // COLOR THE GRID + HOOK UP CLICK EVENTS
+      // =====================================
       document.querySelectorAll(".map-cell").forEach(cell => {
-        const grid = cell.dataset.grid;
-        const people = gridGroups[grid] || [];
+        const gridId = cell.dataset.grid;
+        const people = gridGroups[gridId] || [];
         const count = people.length;
 
-        // Color intensity = how many names in that grid
         if (count === 0) {
-          cell.style.backgroundColor = "#f0f0f0"; // empty - grayish white
+          // No people here
+          cell.classList.add("empty");
         } else {
-          // darken green slightly with more names
-          const greenValue = Math.max(200 - count * 10, 120);
-          cell.style.backgroundColor = `rgb(${greenValue}, ${greenValue + 30}, ${greenValue})`;
+          // More people = darker green
+          const level = Math.min(count, 5); // clamp between 1–5
+          cell.classList.add(`density-${level}`);
         }
 
-        // Click event to show info
         cell.addEventListener("click", () => {
           if (count === 0) {
-            results.innerHTML = `<p>No records found for ${grid}</p>`;
+            results.innerHTML = `<p>No records found for ${gridId}.</p>`;
           } else {
             results.innerHTML = `
-              <h2>Section ${grid}</h2>
+              <h2>Section ${gridId}</h2>
               <ul>
                 ${people
-                  .map(p => `<li>${p.name} (${p.birth} - ${p.death})</li>`)
+                  .map(
+                    p =>
+                      `<li>${p.name} (${p.birth || "?"} - ${p.death || "?"})</li>`
+                  )
                   .join("")}
               </ul>
             `;
@@ -90,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     })
     .catch(err => {
-      console.error("Error loading data:", err);
-      results.innerText = "Error loading data.";
+      console.error("Error loading map data:", err);
+      results.textContent = "Error loading data.";
     });
 });

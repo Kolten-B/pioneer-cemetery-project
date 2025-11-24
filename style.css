@@ -101,37 +101,173 @@ body {
     80%, 100% { content: "⏳..."; }
   }
   
+/* MAP GRID LAYOUT */
+#map-grid {
+  display: grid;
+  gap: 4px;
+  margin: 20px auto;
+  max-width: 1000px;
+  width: min(90vw, 1000px);
+  aspect-ratio: 13 / 12; /* 13 letters by 12 numbers = keep it roughly square-ish */
+}
 
-  #map-grid {
-    display: grid;
-    /* need to change so letters across and numbers down */
-    grid-template-columns: repeat(lettersCount, 1fr); 
-    grid-template-rows: repeat(numbersCount, 1fr);
-    gap: 4px;
-    margin: 20px auto;
-    max-width: 1000px;
-  }
-  
-  .map-cell {
-    background: #d8e3d8;
-    border: 1px solid #ccc;
-    text-align: center;
-    padding: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    border-radius: 4px;
-    transition: background 0.2s;
-  }
-  
-  .map-cell:hover {
-    background: #a8c1a9;
-  }
-  
-  #map-results {
-    margin-top: 20px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
+/* Default cell style */
+.map-cell {
+  background: #e0ebe0;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.map-cell:hover {
+  transform: translateY(-1px);
+}
+
+/* Empty = light gray */
+.map-cell.empty {
+  background: #f0f0f0;
+}
+
+/* Density shades – more people = darker green */
+.map-cell.density-1 { background: #d4e8d4; }
+.map-cell.density-2 { background: #bfdcbc; }
+.map-cell.density-3 { background: #a7cfA4; }
+.map-cell.density-4 { background: #90c38d; }
+.map-cell.density-5 { background: #78b777; }
+
+/* Results panel under the map */
+#map-results {
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+.map-legend {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.9rem;
+  margin: 10px 0 20px;
+  flex-wrap: wrap;
+}
+
+.legend-box {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-right: 4px;
+}
+
+.legend-empty { background: #f0f0f0; }
+.legend-low   { background: #d4e8d4; }
+.legend-high  { background: #78b777; }
+
+
+/* HERO SECTION (HOME PAGE) */
+.hero {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hero-text h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  color: #2f4730;
+}
+
+.hero-text p {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.btn.primary {
+  background-color: #3e5c3f;
+  color: #fff;
+}
+
+.btn.secondary {
+  background-color: #ffffff;
+  color: #3e5c3f;
+  border: 1px solid #3e5c3f;
+}
+
+/* Feature cards */
+.features {
+  max-width: 900px;
+  margin: 0 auto 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.feature-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.feature-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #2f4730;
+}
+
+/* Veterans callout */
+.veterans-callout {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: #f0f7f0;
+  border-left: 4px solid #3e5c3f;
+}
+
+.veterans-callout h3 {
+  margin-top: 0;
+}
+
+
+/* VETERAN ICON (RECORDS PAGE) */
+.record-count {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.badge-veteran {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.85rem;
+}
+
