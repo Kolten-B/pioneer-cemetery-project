@@ -17,24 +17,35 @@
   </header>
 
   <main>
-    <div class="search-bar">
-      <select id="searchType">
-        <option value="name">Name</option>
-        <option value="birth">Birth</option>
-        <option value="death">Death</option>
-      </select>
-      <input type="text" id="search" placeholder="Search...">
+    <section class="records-header">
+      <p>Search the Pioneer Cemetery records by name, birth, death, or show only veterans.</p>
+    </section>
+
+    <div class="records-controls">
+      <div class="search-bar">
+        <select id="searchType">
+          <option value="name">Name</option>
+          <option value="birth">Birth</option>
+          <option value="death">Death</option>
+        </select>
+        <input type="text" id="search" placeholder="Search..." />
+      </div>
+
+      <div class="record-controls-row">
+        <label class="checkbox-inline">
+          <input type="checkbox" id="filterVeterans" />
+          Show veterans only
+        </label>
+      </div>
+
+      <p id="record-count" class="record-count"></p>
+      <p class="veteran-legend">
+        🎖 indicates a burial marked as a veteran in the official records.
+      </p>
     </div>
-
-    <!-- Shows how many records are displayed -->
-    <p id="record-count" class="record-count"></p>
-
-    <!-- Small legend so users know what the medal means -->
-    <p class="veteran-legend">🎖 indicates a burial marked as a veteran in the official records.</p>
 
     <div id="results">Loading data...</div>
   </main>
-
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="app.js"></script>

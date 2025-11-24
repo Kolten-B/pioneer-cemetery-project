@@ -11,56 +11,130 @@ document.addEventListener("DOMContentLoaded", () => {
       header: true,
       skipEmptyLines: true,
       complete: function (resultsData) {
-        // Element that shows "Showing X of Y records"
         const recordCountEl = document.getElementById("record-count");
+        const filterVeteransCheckbox = document.getElementById("filterVeterans");
 
-        // Parse CSV rows into a friendlier JS structure
-        // PHASE 2 IDEA: In the future, this data could come from Firestore instead of CSV.
+        // Helper: convert messy date strings like "7/3/1917" or "1860" to sortable numbers (YYYYMMDD).
+        // If year is missing or weird, we push it to the bottom.
+        function parseDateToNumber(str) {
+          if (!str) return 0; // treat as "no date"
+          const raw = str.trim();
+
+          // Try to grab a 4-digit year
+          const yearMatch = raw.match(/(\d{4})/);
+          if (!yearMatch) return 0;
+          const year = parseInt(yearMatch[1], 10);
+
+          // Default month/day to 1 if they are missing or '?'
+          let month = 1;
+          let day = 1;
+
+          // If there is something like M/D/YYYY, try to parse M and D
+          const parts = raw.split("/");
+          if (parts.length >= 2) {
+            const m = parseInt(parts[0], 10);
+            const d = parseInt(parts[1], 10);
+            if (!isNaN(m)) month = m;
+            if (!isNaN(d)) day = d;
+          }
+
+          // Format: YYYYMMDD as a number
+          return year * 10000 + month * 100 + day;
+        }
+
+        // Parse CSV to nice objects
         const people = resultsData.data
           .map(row => ({
             name: row["Occupant"]?.trim() || "",
             birth: row["Birth"]?.trim() || "",
             death: row["Death"]?.trim() || "",
-            // Some rows mark veterans with something like "X" or another flag
             veteran: (row["Veteran"] || "").trim()
           }))
           .filter(p => p.name);
 
-        // Helper: update the "Showing X of Y" text
+        // Update "Showing X of Y" text
         function updateCount(list) {
           if (recordCountEl) {
             recordCountEl.textContent = `Showing ${list.length} of ${people.length} records`;
           }
         }
 
-        // Randomized loading delay (1–5 seconds) for a slightly "fancier" feel
+        // Apply filters (search + veteran checkbox) and re-render
+        let currentList = people.slice(); // base list we operate on
+
+        function applyFiltersAndRender(sortConfig) {
+          const searchType = document.getElementById("searchType");
+          const term = (searchInput.value || "").toLowerCase();
+          const type = searchType.value;
+          const onlyVets = filterVeteransCheckbox.checked;
+
+          let filtered = people.filter(p => {
+            // text search
+            const fieldValue = (p[type] || "").toLowerCase();
+            if (term && !fieldValue.includes(term)) return false;
+
+            // veteran filter
+            if (onlyVets && !p.veteran) return false;
+
+            return true;
+          });
+
+          // Apply optional sorting
+          if (sortConfig) {
+            const { key, order } = sortConfig;
+            filtered.sort((a, b) => {
+              let valA, valB;
+
+              if (key === "name") {
+                valA = (a.name || "").toLowerCase();
+                valB = (b.name || "").toLowerCase();
+              } else if (key === "birth") {
+                valA = parseDateToNumber(a.birth);
+                valB = parseDateToNumber(b.birth);
+              } else if (key === "death") {
+                valA = parseDateToNumber(a.death);
+                valB = parseDateToNumber(b.death);
+              } else {
+                return 0;
+              }
+
+              if (valA < valB) return order === "asc" ? -1 : 1;
+              if (valA > valB) return order === "asc" ? 1 : -1;
+              return 0;
+            });
+          }
+
+          currentList = filtered;
+          displayPeople(currentList, sortConfig);
+          updateCount(currentList);
+        }
+
+        // Random loading delay 1–5 seconds
         const delayMs = 1000 + Math.floor(Math.random() * 4000);
 
         setTimeout(() => {
           results.classList.remove("loading");
-          displayPeople(people);
-          updateCount(people);
+          applyFiltersAndRender({ key: "name", order: "asc" }); // default
         }, delayMs);
 
-        // Debounced search input handler
+        // Debounced search
         let timeout;
         searchInput.addEventListener("input", () => {
           clearTimeout(timeout);
           timeout = setTimeout(() => {
-            const searchType = document.getElementById("searchType");
-            const term = searchInput.value.toLowerCase();
-            const type = searchType.value; // "name", "birth", or "death"
-
-            const filtered = people.filter(p =>
-              (p[type] || "").toLowerCase().includes(term)
-            );
-            displayPeople(filtered);
-            updateCount(filtered);
+            applyFiltersAndRender(currentSortConfig);
           }, 200);
         });
 
-        // Renders the table of people into the #results div
-        function displayPeople(list) {
+        // Re-filter when "Show veterans only" changes
+        filterVeteransCheckbox.addEventListener("change", () => {
+          applyFiltersAndRender(currentSortConfig);
+        });
+
+        let currentSortConfig = { key: "name", order: "asc" };
+
+        // Render table + attach header sort events
+        function displayPeople(list, sortConfig) {
           if (list.length === 0) {
             results.innerHTML = "<p>No matching names found.</p>";
             return;
@@ -71,8 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <thead>
                 <tr>
                   <th data-sort="name">Name ⬍</th>
-                  <th>Birth</th>
-                  <th>Death</th>
+                  <th data-sort="birth">Birth ⬍</th>
+                  <th data-sort="death">Death ⬍</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -97,22 +171,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
           renderRows(list);
 
-          // Simple alphabetical sort by name (click the header)
-          const nameHeader = results.querySelector('th[data-sort="name"]');
-          nameHeader.addEventListener("click", () => {
-            const currentOrder = nameHeader.dataset.order === "asc" ? "desc" : "asc";
-            nameHeader.dataset.order = currentOrder;
+          // Attach sorting behavior to all three headers
+          const headers = results.querySelectorAll("th[data-sort]");
+          headers.forEach(header => {
+            const key = header.getAttribute("data-sort");
+            header.style.cursor = "pointer";
 
-            const sorted = [...list].sort((a, b) => {
-              const valA = (a.name || "").toLowerCase();
-              const valB = (b.name || "").toLowerCase();
+            header.addEventListener("click", () => {
+              const newOrder =
+                currentSortConfig.key === key && currentSortConfig.order === "asc"
+                  ? "desc"
+                  : "asc";
 
-              if (valA < valB) return currentOrder === "asc" ? -1 : 1;
-              if (valA > valB) return currentOrder === "asc" ? 1 : -1;
-              return 0;
+              currentSortConfig = { key, order: newOrder };
+              applyFiltersAndRender(currentSortConfig);
             });
-
-            renderRows(sorted);
           });
         }
       },

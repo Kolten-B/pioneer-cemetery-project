@@ -71,7 +71,28 @@ body {
     font-size: 1rem;
     border-radius: 6px;
     border: 1px solid #ccc;
+    height: 40px;
+    box-sizing: border-box;
   }
+
+.search-bar select {
+  width: 30%;
+  min-width: 120px;
+}
+
+.search-bar input {
+  flex: 1;
+}
+
+.record-controls-row {
+  margin-bottom: 8px;
+}
+
+.checkbox-inline {
+  font-size: 0.9rem;
+  color: #444;
+}
+
 
   th {
     cursor: pointer;
@@ -106,25 +127,52 @@ body {
   display: grid;
   gap: 4px;
   margin: 20px auto;
-  max-width: 1000px;
-  width: min(90vw, 1000px);
-  aspect-ratio: 13 / 12; /* 13 letters by 12 numbers = keep it roughly square-ish */
+  width: fit-content;      /* shrink to fit grid */
+  max-width: 100%;         /* but don’t overflow small screens */
 }
 
-/* Default cell style */
+/* Square cells */
 .map-cell {
-  background: #e0ebe0;
+  background: #d8e3d8;
   border: 1px solid #ccc;
   text-align: center;
-  padding: 20px;
+  padding: 0;              /* use aspect-ratio instead of padding */
   cursor: pointer;
   font-size: 0.9rem;
   border-radius: 4px;
-  transition: background 0.2s, transform 0.1s;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+  aspect-ratio: 1 / 1;     /* keeps them square */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Stronger hover */
 .map-cell:hover {
-  transform: translateY(-1px);
+  background: #a8c1a9;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Strong selected state */
+.map-cell.selected {
+  outline: 3px solid #3e5c3f;
+  box-shadow: 0 0 0 3px rgba(62, 92, 63, 0.4);
+}
+
+/* Map results text */
+#map-results {
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.map-note {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #555;
 }
 
 /* Empty = light gray */
@@ -138,15 +186,6 @@ body {
 .map-cell.density-3 { background: #a7cfA4; }
 .map-cell.density-4 { background: #90c38d; }
 .map-cell.density-5 { background: #78b777; }
-
-/* Results panel under the map */
-#map-results {
-  margin-top: 20px;
-  background: #fff;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
 
 
 .map-legend {
@@ -170,6 +209,7 @@ body {
 .legend-empty { background: #f0f0f0; }
 .legend-low   { background: #d4e8d4; }
 .legend-high  { background: #78b777; }
+
 
 
 /* HERO SECTION (HOME PAGE) */
@@ -209,7 +249,7 @@ body {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
 
 .btn.primary {
@@ -224,12 +264,29 @@ body {
   border: 1px solid #3e5c3f;
 }
 
-/* Hover – both buttons go dark green */
+/* Both buttons start light green */
+.btn.primary,
+.btn.secondary {
+  background-color: #d8e3d8;   /* light green */
+  color: #2f4730;              /* dark green text */
+  border: 1px solid #3e5c3f;
+}
+
+/* Hover – both go dark green with white text */
 .btn.primary:hover,
 .btn.secondary:hover {
   background-color: #2f4730;
   color: #ffffff;
   border-color: #2f4730;
+  transform: translateY(-1px);
+}
+
+/* Center them */
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 
@@ -309,3 +366,19 @@ body {
   color: #777;
   margin-top: 4px;
 }
+
+
+.data-security {
+  margin-top: 32px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+}
+
+.data-security h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #2f4730;
+}
+
