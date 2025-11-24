@@ -125,11 +125,14 @@ body {
 /* MAP GRID LAYOUT */
 #map-grid {
   display: grid;
-  gap: 4px;
+  gap: 6px;
   margin: 20px auto;
-  width: fit-content;      /* shrink to fit grid */
-  max-width: 100%;         /* but don’t overflow small screens */
+
+  /* make it big and centered */
+  width: 100%;
+  max-width: 900px;   /* you can bump this to 1000–1100 if you want bigger */
 }
+
 
 /* Square cells */
 .map-cell {
@@ -311,6 +314,29 @@ body {
   margin-bottom: 8px;
   color: #2f4730;
 }
+
+.data-security {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-left: 4px solid #3e5c3f;
+}
+
+.data-security h2 {
+  margin-top: 0;
+  color: #2f4730;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.data-security p {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
 
 /* Veterans callout */
 .veterans-callout {

@@ -24,8 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const numbers = Array.from({ length: 6 }, (_, i) => i + 1);   // rows 1–6 only
 
   gridContainer.style.display = "grid";
-  gridContainer.style.gridTemplateColumns = `repeat(${letters.length}, 1fr)`;
-  gridContainer.style.gridTemplateRows = `repeat(${numbers.length}, 1fr)`;
+  gridContainer.style.gridTemplateColumns = `repeat(${letters.length}, minmax(55px, 1fr))`;
   gridContainer.style.gap = "2px";
 
   // Create grid cells like A1, A2, ..., K6
