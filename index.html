@@ -7,14 +7,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Welcome to Pioneer Cemetery</h1>
-    <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="records.html">Records</a>
-      <a href="map.html">Map</a>
-    </nav>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">
+          <span class="brand-mark">PC</span>
+          <span class="brand-text">
+            Pioneer Cemetery
+            <span class="brand-sub">Rexburg, Idaho</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="records.html" class="nav-link">Records</a>
+        <a href="map.html" class="nav-link">Map</a>
+      </nav>
+
+      <div class="header-right" id="header-right">
+        <a href="login.html" class="login-link">Admin Login</a>
+      </div>
+    </div>
   </header>
+
 
   <main>
   <section class="hero">
@@ -71,5 +88,10 @@
 </main>
 <footer>
   <p>&copy; 2025 Pioneer Cemetery Project. All rights reserved.</p>
+</footer>
+
+<script type="module" src="firebase-init.js"></script>
+<script type="module" src="header-auth.js"></script>
+
 </body>
 </html>

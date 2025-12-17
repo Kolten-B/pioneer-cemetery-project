@@ -5,25 +5,122 @@ body {
     padding: 0;
     color: #333;
   }
+
+h1, h2, h3 {
+  text-align: center;
+}
   
-  header {
-    background-color: #3e5c3f;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  nav {
-    margin-top: 10px;
-  }
-  
-  nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
+.site-header {
+  background: radial-gradient(circle at top left, #4f7a52, #2f4730);
+  color: #fff;
+  padding: 0.6rem 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Brand / logo */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid #ffffffaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  /* font-size: 1.15rem; */
+  /* font-weight: 600; */
+  line-height: 1.1;
+}
+
+.brand-sub {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  /* font-size: 0.8rem;
+  opacity: 0.9; */
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-link:hover {
+  text-decoration: none;
+  opacity: 0.95; /* subtle hover */
+}
+
+
+
+/* Center nav */
+.main-nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nav-link {
+  color: #ffffffcc;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: #ffffff;
+  color: #2f4730;
+}
+
+/* Right side login button */
+.header-right .login-link {
+  color: #2f4730;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #ffffff;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.header-right .login-link:hover {
+  background: #f0f7f0;
+  transform: translateY(-1px);
+}
+
   
   nav a.active, nav a:hover {
     background-color: #587b59;
@@ -114,6 +211,12 @@ body {
     content: "⏳";
     animation: dots 1s steps(3, end) infinite;
   }
+
+  #suggest-message.loading::after {
+  content: " ⏳";
+  animation: dots 1s steps(3, end) infinite;
+}
+
   
   @keyframes dots {
     0%, 20% { content: "⏳"; }
@@ -228,7 +331,7 @@ body {
 .hero-text h2 {
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 1.8rem;
+  font-size: 2.1rem;
   color: #2f4730;
 }
 
@@ -243,6 +346,40 @@ body {
   flex-wrap: wrap;
   justify-content: center; /* center the buttons */
 }
+
+.hero-login {
+  max-width: 480px;
+}
+
+/* Login form styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+.login-form label {
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.login-form input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+/* highlight current login */
+.active-login {
+  background: #ffffff;
+  color: #3e5c3f !important;
+}
+
 
 /* Buttons */
 .btn {
@@ -354,6 +491,33 @@ body {
 
 
 /* VETERAN ICON (RECORDS PAGE) */
+.records-header {
+  max-width: 900px;
+  margin: 0 auto 16px;
+}
+
+.records-header h2 {
+  margin: 0 0 6px;
+  font-size: 1.7rem;
+  color: #2f4730;
+}
+
+.records-controls {
+  margin-bottom: 12px;
+}
+
+.records-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.records-meta-right {
+  text-align: right;
+}
+
 .record-count {
   font-size: 0.9rem;
   color: #555;
@@ -372,6 +536,53 @@ body {
   font-size: 0.85rem;
 }
 
+.floating-suggest-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  background: #2f4730;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.floating-suggest-btn:hover {
+  background: #3e5c3f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+.back-to-top-btn {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  background: #2f4730;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.back-to-top-btn:hover {
+  background: #3e5c3f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+
 
 /* SELECTED STATE (MAP PAGE) */
 .map-cell.selected {
@@ -384,6 +595,79 @@ body {
   font-size: 0.85rem;
   color: #555;
 }
+
+.map-intro {
+  max-width: 900px;
+  margin: 0 auto 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.map-intro-main h2 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+  color: #2f4730;
+}
+
+.map-side-panel {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-left: 4px solid #3e5c3f;
+  font-size: 0.9rem;
+}
+
+.map-side-panel h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #2f4730;
+}
+
+/* Map search styling (already partly there, adding here is fine) */
+.map-search {
+  margin: 12px 0 16px;
+}
+
+.map-search label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+#map-search {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  max-width: 260px;
+}
+
+/* Stack those columns on small screens */
+@media (max-width: 700px) {
+  .map-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .map-side-panel {
+    margin-top: 6px;
+  }
+}
+
+
+/* Highlighted cells from search */
+.map-cell.search-hit {
+  outline: 2px solid #00b606;
+  box-shadow:
+    0 0 0 3px rgba(88, 123, 89, 0.85),
+    0 0 14px rgba(88, 123, 89, 0.9);
+  transform: translateY(-2px) scale(1.05);
+}
+
 
 
 /* FUTURE ENHANCEMENT (MAP PAGE) */
@@ -406,5 +690,127 @@ body {
   margin-top: 0;
   font-size: 1.2rem;
   color: #2f4730;
+}
+
+
+
+/* ADMIN PAGE */
+.user-menu {
+  position: relative;
+}
+
+.user-menu-toggle {
+  min-width: 140px;
+  text-align: left;
+}
+
+/* Dropdown */
+.user-menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: #ffffff;
+  color: #2f4730;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  padding: 6px 0;
+  min-width: 170px;
+  display: none;
+  z-index: 1000;
+}
+
+.user-menu-dropdown.open {
+  display: block;
+}
+
+.user-menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  text-align: left;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: #2f4730;
+}
+
+.user-menu-item:hover {
+  background: #f0f7f0;
+}
+
+#admin-status {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.pending-edits-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 10px 0 0;
+}
+
+.pending-edit-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.pending-edit-meta {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.pending-edit-actions {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn-small {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-small:hover {
+  background: #2f4730;
+  color: #fff;
+}
+
+/* loading state */
+.pending-edits-list.loading::before {
+  content: "Loading pending edits…";
+  display: block;
+  padding: 6px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* When loading, show one line at the bottom */
+.pending-edits-list.loading::after {
+  content: "Loading pending edits from Firestore ⏳";
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.btn-approve {
+  background: #2f4730;
+  color: #fff;
+}
+
+.btn-reject {
+  background: #b23b3b;
+  color: #fff;
 }
 
