@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cemetery Map</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+    <div class="brand">
+      <a href="index.html" class="brand-link">
+        <span class="brand-mark">PC</span>
+        <span class="brand-text">
+          Pioneer Cemetery
+          <span class="brand-sub">Rexburg, Idaho</span>
+        </span>
+      </a>
+    </div>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="records.html" class="nav-link">Records</a>
+        <a href="map.html" class="nav-link active">Map</a>
+      </nav>
+
+      <div class="header-right" id="header-right">
+        <a href="login.html" class="login-link">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+
+  <main>
+    <section class="map-intro">
+      <div class="map-intro-main">
+        <h2>Cemetery Grid Overview</h2>
+        <p>
+          Click a grid section to see who’s buried there, or search by name to highlight
+          which sections contain that person’s record.
+        </p>
+
+        <div class="map-search">
+          <label>
+            Search by name on the map
+            <input type="text" id="map-search" placeholder="e.g., Saxton">
+          </label>
+          <p id="map-search-hint" class="future-note">
+            Type part of a name to see which sections contain matching records.
+          </p>
+        </div>
+      </div>
+
+      <aside class="map-side-panel">
+        <h3>Section Density</h3>
+        <div class="map-legend">
+          <div>
+            <span class="legend-box legend-empty"></span> No recorded burials
+          </div>
+          <div>
+            <span class="legend-box legend-low"></span> Few burials
+          </div>
+          <div>
+            <span class="legend-box legend-high"></span> Many burials
+          </div>
+        </div>
+        <p class="future-note">
+          <strong>Phase 2:</strong> This grid will be complemented by a true visual map
+          for more precise headstone locations.
+        </p>
+      </aside>
+    </section>
+
+    <div id="map-grid"></div>
+    <div id="map-results"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="map.js"></script>
+
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module" src="header-auth.js"></script>
+
+</body>
+</html>

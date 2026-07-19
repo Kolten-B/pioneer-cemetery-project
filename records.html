@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pioneer Cemetery Records</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">
+          <span class="brand-mark">PC</span>
+          <span class="brand-text">
+            Pioneer Cemetery
+            <span class="brand-sub">Rexburg, Idaho</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="records.html" class="nav-link active">Records</a>
+        <a href="map.html" class="nav-link">Map</a>
+      </nav>
+
+      <div class="header-right" id="header-right">
+        <a href="login.html" class="login-link">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+
+  <main>
+    <section class="records-header">
+      <h2>Record Search</h2>
+      <p>Search the Pioneer Cemetery records by name, birth, death, or show only veterans.</p>
+    </section>
+
+        <div class="records-controls">
+          <div class="search-bar">
+            <select id="searchType">
+              <option value="name">Name</option>
+              <option value="birth">Birth</option>
+              <option value="death">Death</option>
+            </select>
+            <input type="text" id="search" placeholder="Search..." />
+          </div>
+
+          <div class="records-meta">
+            <div class="record-controls-row">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="filterVeterans" />
+                Show veterans only
+              </label>
+            </div>
+
+            <div class="records-meta-right">
+              <p id="record-count" class="record-count"></p>
+              <p class="veteran-legend">
+                🎖 indicates a burial marked as a veteran in the official records.
+              </p>
+            </div>
+          </div>
+        </div>
+
+    <div id="results">Loading data...</div>
+
+    <section id="suggest-section" class="suggest-section">
+      <h2>Suggest a Correction or Add a Note</h2>
+
+      <form id="suggest-form" class="login-form">
+        <label>
+          Person’s name (as listed in records)
+          <input type="text" id="suggest-name" required placeholder="e.g., Saxton, Mary">
+        </label>
+
+        <label>
+          Your suggestion or note
+          <textarea id="suggest-text" rows="4" required
+            placeholder="Corrected dates, relationship, short story, etc."></textarea>
+        </label>
+
+        <label>
+          Your email (optional, for follow-up)
+          <input type="email" id="suggest-email" placeholder="you@example.com">
+        </label>
+
+        <button type="submit" class="btn primary">Submit Suggestion</button>
+      </form>
+
+      <p id="suggest-message" class="future-note"></p>
+    </section>
+
+        <!-- Back to top button at bottom of records page -->
+    <button
+      class="back-to-top-btn"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
+    >
+      Back to top ⬆
+    </button>
+
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="app.js"></script>
+
+
+<!-- PHASE 2: Firestore-powered suggestions -->
+<script type="module" src="suggest.js"></script>
+<script type="module" src="firebase-init.js"></script>
+<script type="module" src="header-auth.js"></script>
+
+<button
+  class="floating-suggest-btn"
+  onclick="document.getElementById('suggest-section').scrollIntoView({ behavior: 'smooth' });"
+>
+  Suggest a correction
+</button>
+
+</body>
+</html>

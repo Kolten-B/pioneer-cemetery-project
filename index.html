@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pioneer Cemetery Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">
+          <span class="brand-mark">PC</span>
+          <span class="brand-text">
+            Pioneer Cemetery
+            <span class="brand-sub">Rexburg, Idaho</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="records.html" class="nav-link">Records</a>
+        <a href="map.html" class="nav-link">Map</a>
+      </nav>
+
+      <div class="header-right" id="header-right">
+        <a href="login.html" class="login-link">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+
+  <main>
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Discover the stories in Rexburg’s Pioneer Cemetery</h2>
+      <p>
+        Search historic burial records, explore a visual map of the cemetery,
+        and help preserve the memories of those who came before us.
+      </p>
+      <div class="hero-actions">
+        <a href="records.html" class="btn primary">Search Records</a>
+        <a href="map.html" class="btn secondary">Open Cemetery Map</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature-card">
+      <h3>Search Loved Ones</h3>
+      <p>Look up names, birth dates, and death dates using our searchable records table.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Explore the Grounds</h3>
+      <p>Use the interactive grid map to see which section of the cemetery a person is buried in.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Preserve Memories</h3>
+      <p>(Coming soon) Add stories, photos, and corrections to help keep this history alive.</p>
+    </div>
+  </section>
+
+  <section class="veterans-callout">
+    <h3>Honoring Veterans</h3>
+    <p>
+      Many individuals buried in Pioneer Cemetery served in the military.
+      As we continue improving this site, we’ll highlight and honor veteran graves
+      while respecting every person’s story.
+    </p>
+  </section>
+
+  <section class="data-security">
+    <h2>Data, Privacy, and Integrity</h2>
+    <p>
+      These records are based on public cemetery information provided by the City of Rexburg.
+      No sensitive personal information (such as addresses or Social Security numbers) is stored.
+    </p>
+    <p>
+      Future versions of this site will allow family members to suggest updates or add biographies
+      and photos. Those changes will go through an admin review step before appearing publicly.
+      This helps protect the integrity of the records and prevents vandalism or inaccurate edits.
+    </p>
+  </section>
+
+</main>
+<footer>
+  <p>&copy; 2025 Pioneer Cemetery Project. All rights reserved.</p>
+</footer>
+
+<script type="module" src="firebase-init.js"></script>
+<script type="module" src="header-auth.js"></script>
+
+</body>
+</html>

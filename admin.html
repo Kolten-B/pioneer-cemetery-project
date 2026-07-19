@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard – Pioneer Cemetery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">
+          <span class="brand-mark">PC</span>
+          <span class="brand-text">
+            Pioneer Cemetery
+            <span class="brand-sub">Rexburg, Idaho</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="records.html" class="nav-link">Records</a>
+        <a href="map.html" class="nav-link">Map</a>
+      </nav>
+
+      <div class="header-right" id="header-right">
+        <!-- header-auth.js will fill this based on login state -->
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-login">
+      <h2>Admin Dashboard</h2>
+      <p id="admin-status">Checking login status...</p>
+
+      <div class="feature-card">
+        <h3>Pending Edits</h3>
+        <p>
+          These are visitor-submitted corrections and notes from the records page.
+          Review each suggestion and choose to approve or reject it.
+        </p>
+        <ul id="pending-edits-list" class="pending-edits-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module" src="header-auth.js"></script>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

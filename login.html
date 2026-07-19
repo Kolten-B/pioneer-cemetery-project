@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login – Pioneer Cemetery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">
+          <span class="brand-mark">PC</span>
+          <span class="brand-text">
+            Pioneer Cemetery
+            <span class="brand-sub">Rexburg, Idaho</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="records.html" class="nav-link">Records</a>
+        <a href="map.html" class="nav-link">Map</a>
+      </nav>
+
+      <div class="header-right" id="header-right">
+        <a href="login.html" class="login-link active-login">Admin Login</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-login">
+      <h2>Admin Login</h2>
+      <p>
+        This page is designed for trusted cemetery staff or project maintainers.
+        Admins can log in here to review and approve user-submitted
+        corrections, biographies, and photos (Phase 2).
+      </p>
+
+      <form id="login-form" class="login-form">
+        <label>
+          Email
+          <input type="email" id="login-email" required placeholder="admin@example.com">
+        </label>
+
+        <label>
+          Password
+          <input type="password" id="login-password" required placeholder="••••••••">
+        </label>
+
+        <button type="submit" class="btn primary">Sign In</button>
+      </form>
+
+      <p id="login-message" class="future-note"></p>
+    </section>
+  </main>
+
+  <!-- Firebase + Auth -->
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module" src="header-auth.js"></script>
+  <script type="module" src="login.js"></script>
+</body>
+</html>

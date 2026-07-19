@@ -1,0 +1,816 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+h1, h2, h3 {
+  text-align: center;
+}
+  
+.site-header {
+  background: radial-gradient(circle at top left, #4f7a52, #2f4730);
+  color: #fff;
+  padding: 0.6rem 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Brand / logo */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid #ffffffaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  /* font-size: 1.15rem; */
+  /* font-weight: 600; */
+  line-height: 1.1;
+}
+
+.brand-sub {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  /* font-size: 0.8rem;
+  opacity: 0.9; */
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-link:hover {
+  text-decoration: none;
+  opacity: 0.95; /* subtle hover */
+}
+
+
+
+/* Center nav */
+.main-nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nav-link {
+  color: #ffffffcc;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: #ffffff;
+  color: #2f4730;
+}
+
+/* Right side login button */
+.header-right .login-link {
+  color: #2f4730;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #ffffff;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.header-right .login-link:hover {
+  background: #f0f7f0;
+  transform: translateY(-1px);
+}
+
+  
+  nav a.active, nav a:hover {
+    background-color: #587b59;
+  }
+  
+  main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  input#search {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+  }
+  
+  .data-table th, .data-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .data-table th {
+    background-color: #e8f0e8;
+  }
+
+  .search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .search-bar select,
+  .search-bar input {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    height: 40px;
+    box-sizing: border-box;
+  }
+
+.search-bar select {
+  width: 30%;
+  min-width: 120px;
+}
+
+.search-bar input {
+  flex: 1;
+}
+
+.record-controls-row {
+  margin-bottom: 8px;
+}
+
+.checkbox-inline {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+
+  th {
+    cursor: pointer;
+    user-select: none;
+    padding: 8px;
+  }
+  
+  th:hover {
+    background-color: #eaeaea;
+  }
+
+  #results {
+    text-align: center;
+    font-size: 1.2em;
+    padding: 10px;
+  }
+  
+  .loading::after {
+    content: "⏳";
+    animation: dots 1s steps(3, end) infinite;
+  }
+
+  #suggest-message.loading::after {
+  content: " ⏳";
+  animation: dots 1s steps(3, end) infinite;
+}
+
+  
+  @keyframes dots {
+    0%, 20% { content: "⏳"; }
+    40% { content: "⏳."; }
+    60% { content: "⏳.."; }
+    80%, 100% { content: "⏳..."; }
+  }
+  
+/* MAP GRID LAYOUT */
+#map-grid {
+  display: grid;
+  gap: 6px;
+  margin: 20px auto;
+
+  /* make it big and centered */
+  width: 100%;
+  max-width: 900px;   /* you can bump this to 1000–1100 if you want bigger */
+}
+
+
+/* Square cells */
+.map-cell {
+  background: #d8e3d8;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 0;              /* use aspect-ratio instead of padding */
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+  aspect-ratio: 1 / 1;     /* keeps them square */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Stronger hover */
+.map-cell:hover {
+  background: #a8c1a9;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Strong selected state */
+.map-cell.selected {
+  outline: 3px solid #3e5c3f;
+  box-shadow: 0 0 0 3px rgba(62, 92, 63, 0.4);
+}
+
+/* Map results text */
+#map-results {
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.map-note {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Empty = light gray */
+.map-cell.empty {
+  background: #f0f0f0;
+}
+
+/* Density shades – more people = darker green */
+.map-cell.density-1 { background: #d4e8d4; }
+.map-cell.density-2 { background: #bfdcbc; }
+.map-cell.density-3 { background: #a7cfA4; }
+.map-cell.density-4 { background: #90c38d; }
+.map-cell.density-5 { background: #78b777; }
+
+
+.map-legend {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.9rem;
+  margin: 10px 0 20px;
+  flex-wrap: wrap;
+}
+
+.legend-box {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-right: 4px;
+}
+
+.legend-empty { background: #f0f0f0; }
+.legend-low   { background: #d4e8d4; }
+.legend-high  { background: #78b777; }
+
+
+
+/* HERO SECTION (HOME PAGE) */
+.hero {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hero-text h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 2.1rem;
+  color: #2f4730;
+}
+
+.hero-text p {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center; /* center the buttons */
+}
+
+.hero-login {
+  max-width: 480px;
+}
+
+/* Login form styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+.login-form label {
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.login-form input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+/* highlight current login */
+.active-login {
+  background: #ffffff;
+  color: #3e5c3f !important;
+}
+
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn.primary {
+  background-color: #3e5c3f;
+  color: #fff;
+  border: 1px solid #3e5c3f;
+}
+
+.btn.secondary {
+  background-color: #ffffff;
+  color: #3e5c3f;
+  border: 1px solid #3e5c3f;
+}
+
+/* Both buttons start light green */
+.btn.primary,
+.btn.secondary {
+  background-color: #d8e3d8;   /* light green */
+  color: #2f4730;              /* dark green text */
+  border: 1px solid #3e5c3f;
+}
+
+/* Hover – both go dark green with white text */
+.btn.primary:hover,
+.btn.secondary:hover {
+  background-color: #2f4730;
+  color: #ffffff;
+  border-color: #2f4730;
+  transform: translateY(-1px);
+}
+
+/* Center them */
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+/* Feature cards */
+.features {
+  max-width: 900px;
+  margin: 0 auto 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.feature-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.feature-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #2f4730;
+}
+
+.data-security {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-left: 4px solid #3e5c3f;
+}
+
+.data-security h2 {
+  margin-top: 0;
+  color: #2f4730;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.data-security p {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+
+/* Veterans callout */
+.veterans-callout {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: #f0f7f0;
+  border-left: 4px solid #3e5c3f;
+}
+
+.veterans-callout h3 {
+  margin-top: 0;
+}
+
+
+/* VETERAN ICON (RECORDS PAGE) */
+.records-header {
+  max-width: 900px;
+  margin: 0 auto 16px;
+}
+
+.records-header h2 {
+  margin: 0 0 6px;
+  font-size: 1.7rem;
+  color: #2f4730;
+}
+
+.records-controls {
+  margin-bottom: 12px;
+}
+
+.records-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.records-meta-right {
+  text-align: right;
+}
+
+.record-count {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.veteran-legend {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.badge-veteran {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.85rem;
+}
+
+.floating-suggest-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  background: #2f4730;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.floating-suggest-btn:hover {
+  background: #3e5c3f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+.back-to-top-btn {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  background: #2f4730;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.back-to-top-btn:hover {
+  background: #3e5c3f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+
+
+/* SELECTED STATE (MAP PAGE) */
+.map-cell.selected {
+  outline: 2px solid #3e5c3f;
+  box-shadow: 0 0 0 2px rgba(62, 92, 63, 0.25);
+}
+
+.map-note {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.map-intro {
+  max-width: 900px;
+  margin: 0 auto 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.map-intro-main h2 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+  color: #2f4730;
+}
+
+.map-side-panel {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-left: 4px solid #3e5c3f;
+  font-size: 0.9rem;
+}
+
+.map-side-panel h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #2f4730;
+}
+
+/* Map search styling (already partly there, adding here is fine) */
+.map-search {
+  margin: 12px 0 16px;
+}
+
+.map-search label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+#map-search {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  max-width: 260px;
+}
+
+/* Stack those columns on small screens */
+@media (max-width: 700px) {
+  .map-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .map-side-panel {
+    margin-top: 6px;
+  }
+}
+
+
+/* Highlighted cells from search */
+.map-cell.search-hit {
+  outline: 2px solid #00b606;
+  box-shadow:
+    0 0 0 3px rgba(88, 123, 89, 0.85),
+    0 0 14px rgba(88, 123, 89, 0.9);
+  transform: translateY(-2px) scale(1.05);
+}
+
+
+
+/* FUTURE ENHANCEMENT (MAP PAGE) */
+.future-note {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 4px;
+}
+
+
+.data-security {
+  margin-top: 32px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+}
+
+.data-security h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #2f4730;
+}
+
+
+
+/* ADMIN PAGE */
+.user-menu {
+  position: relative;
+}
+
+.user-menu-toggle {
+  min-width: 140px;
+  text-align: left;
+}
+
+/* Dropdown */
+.user-menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: #ffffff;
+  color: #2f4730;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  padding: 6px 0;
+  min-width: 170px;
+  display: none;
+  z-index: 1000;
+}
+
+.user-menu-dropdown.open {
+  display: block;
+}
+
+.user-menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  text-align: left;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: #2f4730;
+}
+
+.user-menu-item:hover {
+  background: #f0f7f0;
+}
+
+#admin-status {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.pending-edits-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 10px 0 0;
+}
+
+.pending-edit-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.pending-edit-meta {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.pending-edit-actions {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn-small {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-small:hover {
+  background: #2f4730;
+  color: #fff;
+}
+
+/* loading state */
+.pending-edits-list.loading::before {
+  content: "Loading pending edits…";
+  display: block;
+  padding: 6px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* When loading, show one line at the bottom */
+.pending-edits-list.loading::after {
+  content: "Loading pending edits from Firestore ⏳";
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.btn-approve {
+  background: #2f4730;
+  color: #fff;
+}
+
+.btn-reject {
+  background: #b23b3b;
+  color: #fff;
+}
+
